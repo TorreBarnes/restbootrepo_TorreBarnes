@@ -48,9 +48,9 @@ public class TodosResource {
 	// To test: http://localhost:7070/morehouse/restapp/todos/1
 	//   HTTP method: GET
     //   Accept:  application/json   or application/xml
-	
-	
-	
+
+
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = { "application/json", "application/xml"  })
 	public Todo retrieveTodo(@PathVariable long id) {
 		// Retrieve a row from the todo table in the H2 database
 		// using the id passed by client via URL
@@ -69,8 +69,7 @@ public class TodosResource {
 	//            in the Todos database table
 	// Accept: application/json
 	
-	@RequestMapping(method = RequestMethod.POST, consumes = {"application/json"})
-	
+	@RequestMapping(method = RequestMethod.POST, consumes = { "application/json" })
 	public Todo createTodo(@RequestBody Todo todo) {
 		Todo savedTodo = todoRepository.save(todo);
 		return savedTodo;
@@ -82,6 +81,8 @@ public class TodosResource {
 	// To test: http://localhost:7070/morehouse/restapp/todos/<id>
 	//    Note: Make sure the id you pass exists in the Todo table
 	// HTTP method: DELETE
+
+	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE, consumes = { "application/json" })
 	public String deleteTodo(@PathVariable long id) {
 		todoRepository.deleteById(id);
 		return "row " + id + " deleted";
@@ -98,7 +99,7 @@ public class TodosResource {
 	//        This assumes there is a row in the Todos database table
 	//        with id = 6
 	
-	@RequestMapping(path = "/{id}", method = RequestMethod.PUT, produces = {"application/json", "application/xml"})
+	@RequestMapping(path = "/{id}", method = RequestMethod.PUT, produces = { "application/json", "application/xml" })
 	public ResponseEntity<Object> updateTodo(@RequestBody Todo todo, @PathVariable long id) {
 
 		Optional<Todo> todoOptional = todoRepository.findById(id);
